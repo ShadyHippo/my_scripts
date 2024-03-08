@@ -1,11 +1,15 @@
 # my_scripts
 Where I'll dump all my bash scripts
 
+Feel free to use, modify, take, add to, PR or whatever to this repo. This is primarily for personal use but it is public if anyone finds anything useful in here. 
+
 ### flash-test
 *Must have F3 installed*
+For Debian based distros that's as simple as: 
 ```bash
 sudo apt install f3
 ```
+for anyone else you're on your own :) 
 - must be run as root
 - will run lsblk then ask you for the disk and the mountpoint
 
