@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+lsblk
+
+echo "Disk Name ex: mmcblk0 NOT mmcblk0p1"
+read diskname
+
+echo "Mount point ex /media/hippo/6261-6535"
+read mountpoint
+
+f3probe --destructive --time-ops /dev/$diskname
+f3write $mountpoint
+f3read $mountpoint

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# https://quantixed.org/2021/11/20/convertible-using-ffmpeg-to-convert-audio-files/
+# You can set the -ab ###k to something that makes more sense prior to running
+# Someday see if this can be run with parallel
+# https://blog.ronin.cloud/gnu-parallel/
+find . -iname '*.opus' -exec bash -c 'D=$(dirname "{}"); B=$(basename "{}"); mkdir "$D/mp3/"; ffmpeg -i "{}" -ab 160k -map_metadata 0:s:a:0 -id3v2_version 3 "$D/mp3/${B%.*}.mp3"' \;
+
+
+# Parallel version, instantly maxes out all CPU cores btw
+find . -iname '*.opus' -exec bash -c 'D=$(dirname "{}"); B=$(basename "{}"); mkdir "$D/mp3/"; ffmpeg -i "{}" -ab 160k -map_metadata 0:s:a:0 -id3v2_version 3 "$D/mp3/${B%.*}.mp3" &' \;

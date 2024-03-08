@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cat /run/systemd/resolve/resolv.conf | grep nameserver
+
+echo nslookup is the does the website exist command

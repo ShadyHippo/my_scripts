@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# see yt-dlp docs, here's a couple good examples
+#
+# Download just high quality audio from playlist: 
+yt-dlp -x -o "%(playlist_index)s_%(title)s.%(ext)s" "__PLAYLIST LINK__"
+
+# Download entire playlist with audio and video
+yt-dlp -o "%(playlist_index)s_%(title)s.%(ext)s" "__PLAYLIST LINK__"
