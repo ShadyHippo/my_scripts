@@ -1,3 +1,4 @@
 #!/bin/bash
 
-sensors | grep "fan"
+sensors | grep -e "fan" -e "Package" -e "Composite"
+

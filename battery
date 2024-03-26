@@ -1,0 +1,3 @@
+#!/bin/bash
+
+upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -e "power supply" -e "state" -e "warning-level" -e "energy" -e "voltage" -e "charge-cycles" -e "time to empty" -e "percentage" -e "capacity" -e "History" -e "dischargin"

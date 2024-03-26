@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat /sys/devices/system/cpu/cpufreq/policy1/scaling_max_freq
