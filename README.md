@@ -20,6 +20,11 @@ Uses F3 to:
 
 it took about an hour for a 16 GB cheapo sd card to run on my machine, nice to have it fire and forget and not take 3 commands and now I don't have to remember them
 
+### nvidia-dolphin-emu.desktop
+I have seen tons of scripts and instructions for running apps specifically with your nvidia GPU. These are great if you want to run from a script. I don't, I wanted to use ILIA to run them. So you can copy paste the original desktop file from wherever it is and put it into a directory you own on that path (for me I copy them to `~/.local/share/applications/` and then edit the command it runs and add the two magic pieces to make it run on nvidia.
+
+This method is far preferable to me so I don't have to run a script in the cli just to go play dolphin
+
 ### dns
 I couldn't remember the DNS command and just want to check my pihole is still running
 it also reminds me of nslookup so I can check if it's not only running but still blocking the webistes I asked it to block
