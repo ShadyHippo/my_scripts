@@ -1,0 +1,3 @@
+#!/bin/bash
+
+jpegoptim -S 50% FILENAME.EXT

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+compositor_PID=$(pidof picom)
+
+while [ ! -z "$compositor_PID" ]; do
+  echo "Killing Picom"
+  kill $compositor_PID
+  sleep .1
+  compositor_PID=$(pidof picom)
+done
+
+echo "Picom Killed"
+
+if [[ -f "$HOME/.config/regolith3/picom/config" ]]; then
+  echo "starting with home directory thing"
+  /usr/bin/picom --config "$HOME/.config/regolith3/picom/config" --daemon
+else
+  echo "starting with else path"
+  CONFIG_PATH=$(xrescat regolith.compositor.picom.config /etc/regolith/picom/config)
+  /usr/bin/picom --config "$CONFIG_PATH" --daemon
+fi
