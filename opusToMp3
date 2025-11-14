@@ -9,3 +9,20 @@ find . -iname '*.opus' -exec bash -c 'D=$(dirname "{}"); B=$(basename "{}"); mkd
 
 # Parallel version, instantly maxes out all CPU cores btw
 find . -iname '*.opus' -exec bash -c 'D=$(dirname "{}"); B=$(basename "{}"); mkdir "$D/mp3/"; ffmpeg -i "{}" -ab 160k -map_metadata 0:s:a:0 -id3v2_version 3 "$D/mp3/${B%.*}.mp3" &' \;
+
+
+find . -iname '*.opus' -print0 | xargs -0 -n1 -P4 -I{} bash -c '
+file="{}"
+D=$(dirname "$file")
+B=$(basename "$file")
+mkdir -p "$D/mp3"
+ffmpeg -hide_banner -loglevel error -y -i "$file" \
+  -map 0 \
+  -c:a libmp3lame -q:a 0 \        # best-quality VBR MP3 via LAME
+  -c:v copy -c:s copy -c:t copy \ # copy any cover/other streams if present
+  -map_metadata 0 \               # copy global metadata (tags)
+  -id3v2_version 3 \              # write ID3v2.3 tags (good compatibility)
+  -write_id3v1 1 \                # also write ID3v1 tags for older players
+  "$D/mp3/${B%.*}.mp3"
+' 
+

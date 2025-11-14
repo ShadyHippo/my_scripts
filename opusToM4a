@@ -1,0 +1,53 @@
+
+
+find . -iname '*.opus' -print0 | xargs -0 -n1 -P4 -I{} bash -c '
+D=$(dirname "{}")
+B=$(basename "{}")
+mkdir -p "$D/m4a/"
+echo "Converting $B → $D/m4a/${B%.*}.m4a"
+ffmpeg -hide_banner -i "{}" \
+  -map 0 \
+  -c:a aac -b:a 256k \
+  -c:v copy -c:s copy \
+  -map_metadata 0 \
+  -movflags use_metadata_tags \
+  "$D/m4a/${B%.*}.m4a"
+'
+
+
+USE THIS ONE:::
+find . -iname '*.opus' -print0 | xargs -0 -n1 -P4 bash -c '
+file="$0"
+D=$(dirname "$file")
+B=$(basename "$file")
+mkdir -p "$D/m4a/"
+
+echo "Converting: $B → $D/m4a/${B%.*}.m4a"
+
+# extract cover art if present
+ffmpeg -hide_banner -loglevel error -y -i "$file" -an -vn -c copy "$D/temp_cover.jpg" 2>/dev/null || true
+
+# convert audio and attach cover if exists
+if [ -f "$D/temp_cover.jpg" ]; then
+    ffmpeg -hide_banner -i "$file" -i "$D/temp_cover.jpg" \
+        -map 0:a -map 1 \
+        -c:a aac -b:a 256k \
+        -c:v copy -c:s copy \
+        -disposition:v:0 attached_pic \
+        -map_metadata 0 \
+        -movflags use_metadata_tags \
+        "$D/m4a/${B%.*}.m4a"
+    rm "$D/temp_cover.jpg"
+else
+    ffmpeg -hide_banner -i "$file" \
+        -map 0 \
+        -c:a aac -b:a 256k \
+        -c:v copy -c:s copy \
+        -map_metadata 0 \
+        -movflags use_metadata_tags \
+        "$D/m4a/${B%.*}.m4a"
+fi
+
+echo "Finished: $B"
+' 
+

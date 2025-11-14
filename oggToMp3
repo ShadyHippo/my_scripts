@@ -1,0 +1,9 @@
+#!/bin/bash
+
+find . -iname '*.ogg' -print0 | xargs -0 -n1 -P4 -I{} bash -c '
+file="{}"
+D=$(dirname "$file")
+B=$(basename "$file")
+mkdir -p "$D/mp3"
+ffmpeg -hide_banner -loglevel error -y -i "$file" -vn -c:a libmp3lame -q:a 0 -map_metadata 0 -id3v2_version 3 "$D/mp3/${B%.*}.mp3"
+' 
